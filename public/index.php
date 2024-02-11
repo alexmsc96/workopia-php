@@ -1,19 +1,18 @@
 <?php
 
 require '../helpers.php';
+require basePath('Router.php');
+require basePath('Database.php');
 
-$routes = [
-  '/' => 'controllers/home.php',
-  '/listings' => 'controllers/listings/index.php',
-  '/listings/create' => 'controllers/listings/create.php',
-  '/404' => 'controllers/error/404.php'
-];
+/**
+ * This file is the entry point of the application.
+ * It initializes the router, retrieves the routes from the routes.php file,
+ * and handles the incoming request by routing it to the appropriate controller.
+ */
 
-$uri = $_SERVER['REQUEST_URI'];
+$router = new Router;
+$routes = require basePath('routes.php');
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$method = $_SERVER['REQUEST_METHOD'];
 
-if (array_key_exists($uri, $routes)) {
-  require basePath($routes[$uri]);
-} else {
-  require basePath($routes['/404']);
-}
-;
+$router->route($uri, $method);
