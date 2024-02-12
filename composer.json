@@ -1,0 +1,16 @@
+{
+  "name": "alexmsc96/workopia-php",
+  "description": "Workopia PHP",
+  "authors": [
+    {
+      "name": "Alexandru Msc",
+      "email": "alexandrumuscina@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Framework\\": "Framework/",
+      "App\\": "App/"
+    }
+  }
+}

@@ -1,5 +1,12 @@
 <?php
 
+namespace Framework;
+
+use PDO;
+use PDOException;
+use Exception;
+
+
 class Database
 {
   public $conn;
@@ -32,7 +39,7 @@ class Database
    * 
    *  @param string $query
    * 
-   * @return PDOStatement
+   * @return \PDOStatement
    * @throws Exception
    */
   public function query($query, $params = [])

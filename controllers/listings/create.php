@@ -1,3 +1,0 @@
-<?=
-
-  loadView('listings/create');

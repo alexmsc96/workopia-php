@@ -1,5 +1,9 @@
 <?php
 
+namespace Framework;
+
+use App\Controllers\ErrorController;
+
 class Router
 {
   protected $routes = [];
@@ -8,15 +12,18 @@ class Router
    *
    * @param string $method The HTTP method for the route.
    * @param string $uri The URI pattern for the route.
-   * @param string $controller The controller for the route.
+   * @param string $action The action for the route.
    * @return void
    */
-  public function registerRoute($method, $uri, $controller)
+  public function registerRoute($method, $uri, $action)
   {
+    list($controller, $controllerMethod) = explode('@', $action);
+
     $this->routes[] = [
       'method' => $method,
       'uri' => $uri,
-      'controller' => $controller
+      'controller' => $controller,
+      'controllerMethod' => $controllerMethod
     ];
   }
 
@@ -74,21 +81,6 @@ class Router
   }
 
   /**
-   * Load error page
-   * 
-   * @param int $httpCode
-   * @return void
-   */
-
-  public function error($httpCode = 404)
-  {
-
-    http_response_code($httpCode);
-    loadView("error/{$httpCode}");
-    exit;
-  }
-
-  /**
    * Route the request
    * 
    * @param string $uri
@@ -100,11 +92,18 @@ class Router
   {
     foreach ($this->routes as $route) {
       if ($route['uri'] === $uri && $route['method'] === $method) {
-        require basePath($route['controller']);
+        // Extract controller and controller method
+        $controller = "App\\Controllers\\" . $route['controller'];
+        $controllerMethod = $route['controllerMethod'];
+
+        // Instantiate the controller and call the method
+        $controllerInstance = new $controller;
+        $controllerInstance->$controllerMethod();
+
         return;
       }
     }
-    $this->error();
+    ErrorController::notFound();
   }
 
 }
