@@ -107,3 +107,17 @@ function sanitize($dirty)
 {
   return filter_var((trim($dirty)), FILTER_SANITIZE_SPECIAL_CHARS);
 }
+
+/**
+ * Redirect to a new page
+ * 
+ * @param string $path
+ * 
+ * @return void
+ */
+
+function redirect($url)
+{
+  header("Location: $url");
+  exit;
+}

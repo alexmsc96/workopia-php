@@ -104,7 +104,32 @@ class ListingController
       ]);
     } else {
       // Submit data
-      echo 'Data submitted successfully';
+
+      $fields = [];
+
+      foreach ($newListingData as $field => $value) {
+        $fields[] = $field;
+      }
+
+      $fields = implode(', ', $fields);
+
+      $values = [];
+
+      foreach ($newListingData as $field => $value) {
+        // Convert empty strings to null
+        if ($value === '') {
+          $newListingData[$field] = '';
+        }
+        $values[] = ':' . $field;
+      }
+
+      $values = implode(', ', $values);
+
+      $query = "INSERT INTO listings ($fields) VALUES ($values)";
+
+      $this->db->query($query, $newListingData);
+
+      redirect('listings');
     }
   }
 
