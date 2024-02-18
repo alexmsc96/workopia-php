@@ -1,17 +1,12 @@
 <?php
 
+session_start();
 require __DIR__ . '/../vendor/autoload.php';
 
 require '../helpers.php';
 
 use Framework\Router;
 
-// spl_autoload_register(function ($class) {
-//   $path = basePath('Framework/' . $class . '.php');
-//   if (file_exists($path)) {
-//     require $path;
-//   }
-// });
 
 /**
  * This file is the entry point of the application.
